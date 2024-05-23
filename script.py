@@ -3,20 +3,27 @@ import pandas as pd
 
 # List of servers to connect to in the format DBINSTANCENAME_HOSTNAME.COM
 servers = [
-    '"DB1_host1.example.com"',
-    '"DB2_host2.example.com"',
-    '"DB3_host3.example.com"'
+    'DB1_host1.example.com',
+    'DB2_host2.example.com',
+    'DB3_host3.example.com'
 ]
+
+#please declare the columns for getting them in csv
+cols = ['EID', 'STATUS', 'Last_Active', 'Created', 'Profile', 'DB', 'Host_name']
+
+#declare name of file 
+title  = "Health_Check_Report.csv"
+
 
 # Convert the server list to a dictionary {DBINSTANCENAME: HOSTNAME.COM}
 server_dict = {}
 for server in servers:
-    parts = server.replace('"', '').split('_')
+    parts = server.split('_')
     if len(parts) == 2:
         db_instance, hostname = parts
         server_dict[db_instance] = hostname
 
-# Sample user credentials
+# Replace with your user credentials
 uid = "sample_user"
 pwd = "sample_password_123"
 
@@ -25,10 +32,14 @@ results = []
 
 # Generic health check query (this can be replaced with any valid SQL query)
 health_check_query = """
-SELECT 'DB Name' AS EID, 'Status' AS STATUS, sysdate AS Last_Active, 'Created' AS Created, 
-       'Profile' AS Profile, name AS DB, host_name AS Host_name
-FROM v$database
-JOIN v$instance;
+SELECT 'DB Name' AS EID, 
+       'Status' AS STATUS, 
+       sysdate AS Last_Active, 
+       'Created' AS Created,
+       'Profile' AS Profile, 
+       name AS DB, 
+       host_name AS Host_name
+FROM v$database, v$instance;
 """
 
 # Iterate over each server connection string and run the query
@@ -61,7 +72,7 @@ for db_instance, hostname in server_dict.items():
         print("Error Full Code: ", de_object.full_code)
 
 # Create a DataFrame from the results and save to a CSV file
-df = pd.DataFrame(results, columns=['EID', 'STATUS', 'Last_Active', 'Created', 'Profile', 'DB', 'Host_name'])
-df.to_csv("Health_Check_Report.csv", index=False)
+df = pd.DataFrame(results, columns=cols)
+df.to_csv(title, index=False)
 
 print(df.head())
