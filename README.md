@@ -37,4 +37,4 @@ The script connects to specified databases, executes a query, and saves the resu
     python db_health_check.py
     ```
 
-**Please feel free for suggestions and improvements.
+**Please feel free for reaching out for any suggestions and improvements**
