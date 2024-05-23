@@ -17,6 +17,10 @@ The script connects to specified databases, executes a query, and saves the resu
 - `oracledb` library
 - `pandas` library
 
+## Asumptions
+- List of databases to be given in code defined pattern ex:- DBNAME_HOSTNAME.COM
+- There is user which is present in all DBs and have same password
+- Columns of schema have to be defined in cols variable
 ## Usage
 1. Clone the repository:
     ```bash
@@ -33,3 +37,4 @@ The script connects to specified databases, executes a query, and saves the resu
     python db_health_check.py
     ```
 
+**Please feel free for suggestions and improvements.
